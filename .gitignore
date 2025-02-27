@@ -1,0 +1,36 @@
+# Terraform state files
+*.tfstate
+*.tfstate.*
+
+# Crash log files
+crash.log
+
+# Terraform variable files
+*.tfvars
+*.tfvars.json
+
+# Override files
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Terraform plan files
+*.tfplan
+
+# Terraform provider lock file
+.terraform.lock.hcl
+
+# Directory for Terraform's local state
+.terraform/
+
+# Ignore editor specific files
+.vscode/
+.idea/
+*.swp
+*.bak
+*.tmp
+*.DS_Store
+
+# Ignore service principal credentials
+service-principal
