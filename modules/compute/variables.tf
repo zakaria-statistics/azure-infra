@@ -15,3 +15,18 @@ variable "admin_username" {}
 variable "ssh_public_key" {}
 variable "subnet_id" {}
 variable "public_ip_id" {}
+
+variable "image_reference" {
+  type = object({
+    publisher = string
+    offer     = string
+    sku       = string
+    version   = string
+  })
+  default = {
+    publisher = "Canonical"
+    offer     = "UbuntuServer"
+    sku       = "22.04-LTS"
+    version   = "2024.0.202108270"
+  }
+}

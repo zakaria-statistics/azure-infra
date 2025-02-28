@@ -3,9 +3,8 @@ variable "client_id" {}
 variable "client_secret" {}
 variable "tenant_id" {}
 
-
 variable "location" {
-  default = "West"
+  default = "West US"
 }
 
 variable "resource_group_name" {
@@ -25,9 +24,33 @@ variable "ssh_public_key" {
 }
 
 variable "vm_size" {
-  default = "Standard_DC4s_v3"  # 4 CPUs, 16 GiB RAM, 150 GiB ephemeral disk
+  default = "Standard_DC4s_v3" 
 }
 
-variable "os_disk_size" {
-  default = 128  # E10 Disk (128 GiB)
+variable "os_disk" {
+  type = object({
+    caching              = string
+    storage_account_type = string
+    disk_size_gb         = number
+  })
+  default = {
+    caching              = "ReadWrite"
+    storage_account_type = "Standard_LRS"
+    disk_size_gb         = 128
+  }
+}
+
+variable "image_reference" {
+  type = object({
+    publisher = string
+    offer     = string
+    sku       = string
+    version   = string
+  })
+  default = {
+    publisher = "Canonical"
+    offer     = "UbuntuServer"
+    sku       = "22.04-LTS"
+    version   = "2024.0.202108270"
+  }
 }

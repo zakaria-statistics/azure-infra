@@ -22,6 +22,13 @@ resource "azurerm_linux_virtual_machine" "spot_vm" {
   priority        = "Spot"
   eviction_policy = "Delete"
 
+  source_image_reference {
+    publisher = var.image_reference.publisher
+    offer     = var.image_reference.offer
+    sku       = var.image_reference.sku
+    version   = var.image_reference.version
+  }
+
   os_disk {
     caching              = var.os_disk.caching
     storage_account_type = var.os_disk.storage_account_type
