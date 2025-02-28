@@ -5,7 +5,7 @@ variable "tenant_id" {}
 
 
 variable "location" {
-  default = "West Europe"
+  default = "West"
 }
 
 variable "resource_group_name" {
@@ -31,7 +31,3 @@ variable "vm_size" {
 variable "os_disk_size" {
   default = 128  # E10 Disk (128 GiB)
 }
-
-#variable "domain_name_label" {
-#  default = "myspotvm" 
-#}

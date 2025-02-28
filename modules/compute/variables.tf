@@ -1,36 +1,17 @@
-variable "resource_group_name" {
-    default = "spot-vm-rg"
-}
-variable "location" {
-    default = "East US"
-}
-variable "vm_size" {
-    default = "Standard_D2s_v3"
-}
-
-variable "spot-ip-config" {
-    default = {
-        name      = "spot-ip-config"
-        subnet_id = var.subnet_id
-        public_ip_address_id = var.public_ip_id
-    }
-}
+variable "resource_group_name" {}
+variable "location" {}
+variable "vm_name" {}
+variable "vm_size" {}
 
 variable "os_disk" {
-    default = {
-        caching              = "ReadWrite"
-        storage_account_type = "StandardSSD_LRS"
-    }
+  type = object({
+    caching              = string
+    storage_account_type = string
+    disk_size_gb         = number
+  })
 }
-variable "admin_username" {
-    default = "azureuser"
-}
-variable "ssh_public_key" {
 
-}
-variable "subnet_id" {
-    type = string
-}
-variable "public_ip_id" {
-    type = string
-}
+variable "admin_username" {}
+variable "ssh_public_key" {}
+variable "subnet_id" {}
+variable "public_ip_id" {}

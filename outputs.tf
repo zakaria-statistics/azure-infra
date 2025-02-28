@@ -1,7 +1,15 @@
 output "vm_public_ip" {
-  value = azurerm_public_ip.public_ip.ip_address
+  value = module.networking.public_ip
 }
 
 output "ssh_command" {
-  value = "ssh -i /home/username/.ssh/my_azure_key ${var.admin_username}@${azurerm_public_ip.public_ip.ip_address}"
+  value = "ssh -i ~/.ssh/my_key ${var.admin_username}@${module.networking.public_ip}"
+}
+
+output "public_ip_address" {
+  value = module.networking.public_ip_address
+}
+
+output "vm_id" {
+  value = module.compute.vm_id
 }
