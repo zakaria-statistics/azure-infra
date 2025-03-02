@@ -40,6 +40,12 @@ variable "os_disk" {
   }
 }
 
+variable "upgrade_policy_mode" {
+  description = "The upgrade policy mode for the VMSS"
+  type        = string
+  default     = "Manual"  # Change based on your desired upgrade policy (e.g., Automatic)
+}
+
 variable "image_reference" {
   type = object({
     publisher = string

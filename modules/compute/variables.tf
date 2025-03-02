@@ -15,6 +15,7 @@ variable "admin_username" {}
 variable "ssh_public_key" {}
 variable "subnet_id" {}
 variable "public_ip_id" {}
+variable "nsg_id" {}
 
 variable "image_reference" {
   type = object({
@@ -29,6 +30,12 @@ variable "image_reference" {
     sku       = "22.04-LTS"
     version   = "2024.0.202108270"
   }
+}
+
+variable "upgrade_policy_mode" {
+  description = "The upgrade policy mode for the VMSS"
+  type        = string
+  default     = "Manual"  # Change based on your desired upgrade policy (e.g., Automatic)
 }
 
 variable "vmss_capacity" {

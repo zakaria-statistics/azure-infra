@@ -1,33 +1,53 @@
-resource "azurerm_linux_virtual_machine" "spot_vm" {
+resource "azurerm_virtual_machine_scale_set" "vmss" {
   name                = var.vmss_name
   resource_group_name = var.resource_group_name
   location            = var.location
-  size                = var.vmss_size
-  admin_username      = var.admin_username
-  network_interface_ids = [azurerm_network_interface.nic.id]
+  sku {
+    name     = var.vmss_size
+    tier     = "Standard"
+    capacity = var.vmss_capacity
+  }
+  upgrade_policy_mode = var.upgrade_policy_mode
 
-  priority        = "Spot"
-  eviction_policy = "Delete"
+  # Spot configuration
+  priority        = var.priority
+  eviction_policy = var.eviction_policy
 
-  source_image_reference {
+  os_profile {
+    computer_name_prefix = var.vmss_name
+    admin_username       = var.admin_username
+  }
+
+  storage_profile_os_disk {
+    caching       = var.os_disk.caching
+    create_option = "FromImage"
+  }
+
+  storage_profile_image_reference {
     publisher = var.image_reference.publisher
     offer     = var.image_reference.offer
     sku       = var.image_reference.sku
     version   = var.image_reference.version
   }
-
-  os_disk {
-    caching              = var.os_disk.caching
-    storage_account_type = var.os_disk.storage_account_type
-    disk_size_gb         = var.os_disk.disk_size_gb
+  os_profile_linux_config {
+    disable_password_authentication = true
+    ssh_keys {
+      path     = "/home/${var.admin_username}/.ssh/authorized_keys"
+      key_data = file(var.ssh_public_key)
+    }
   }
 
-  admin_ssh_key {
-    username   = var.admin_username
-    public_key = file(var.ssh_public_key)
+  network_profile {
+    name    = "vmss-nic"
+    primary = true
+    ip_configuration {
+      name                          = "vmss-ip-config"
+      subnet_id                     = var.subnet_id
+      primary = true
+    }
   }
 }
 
-output "vm_id" {
-  value = azurerm_linux_virtual_machine.spot_vm.id
+output "vmss_id" {
+  value = azurerm_virtual_machine_scale_set.vmss.id
 }
