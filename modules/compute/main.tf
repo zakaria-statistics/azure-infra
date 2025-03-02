@@ -1,21 +1,8 @@
-resource "azurerm_network_interface" "nic" {
-  name                = "${var.vm_name}-nic"
-  resource_group_name = var.resource_group_name
-  location            = var.location
-
-  ip_configuration {
-    name                          = "ipconfig1"
-    subnet_id                     = var.subnet_id
-    public_ip_address_id          = var.public_ip_id
-    private_ip_address_allocation = "Dynamic"
-  }
-}
-
 resource "azurerm_linux_virtual_machine" "spot_vm" {
-  name                = var.vm_name
+  name                = var.vmss_name
   resource_group_name = var.resource_group_name
   location            = var.location
-  size                = var.vm_size
+  size                = var.vmss_size
   admin_username      = var.admin_username
   network_interface_ids = [azurerm_network_interface.nic.id]
 

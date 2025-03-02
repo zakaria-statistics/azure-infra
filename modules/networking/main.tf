@@ -34,6 +34,19 @@ resource "azurerm_network_interface_security_group_association" "nic_nsg" {
   network_security_group_id = azurerm_network_security_group.nsg.id
 }
 
+resource "azurerm_network_interface" "nic" {
+  name                = "spot-nic"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+
+  ip_configuration {
+    name                          = "internal"
+    subnet_id                    = azurerm_subnet.example.id
+    private_ip_address_allocation = "Dynamic"
+  }
+}
+
+
 
 resource "azurerm_virtual_network" "vnet" {
   name                = "spot-vnet"

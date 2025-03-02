@@ -1,7 +1,7 @@
 variable "resource_group_name" {}
 variable "location" {}
-variable "vm_name" {}
-variable "vm_size" {}
+variable "vmss_name" {}  # Changed vm_name to vmss_name for scale set
+variable "vmss_size" {}  # Changed vm_size to vmss_size for scale set size
 
 variable "os_disk" {
   type = object({
@@ -29,4 +29,19 @@ variable "image_reference" {
     sku       = "22.04-LTS"
     version   = "2024.0.202108270"
   }
+}
+
+variable "vmss_capacity" {
+  description = "The initial number of VMs to deploy in the VMSS"
+  default     = 1
+}
+
+variable "priority" {
+  description = "Priority of the VMs in the scale set. For Spot VMs use 'Spot'"
+  default     = "Spot"
+}
+
+variable "eviction_policy" {
+  description = "Eviction policy for Spot VMs. Use 'Delete' to recreate them if evicted."
+  default     = "Delete"
 }
