@@ -1,3 +1,40 @@
+resource "azurerm_network_security_group" "nsg" {
+  name                = "spot-vm-nsg"
+  resource_group_name = var.resource_group_name
+  location            = var.location
+
+  security_rule {
+    name                       = "SSH"
+    priority                   = 100
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "22"
+    source_address_prefix      = "0.0.0.0/0"
+    destination_address_prefix = "*"
+  }
+
+  security_rule {
+    name                       = "AllowInternet"
+    priority                   = 200
+    direction                  = "Outbound"
+    access                     = "Allow"
+    protocol                   = "*"
+    source_port_range          = "*"
+    destination_port_range     = "*"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+}
+
+# Associating the NSG with the network interface
+resource "azurerm_network_interface_security_group_association" "nic_nsg" {
+  network_interface_id      = azurerm_network_interface.nic.id
+  network_security_group_id = azurerm_network_security_group.nsg.id
+}
+
+
 resource "azurerm_virtual_network" "vnet" {
   name                = "spot-vnet"
   resource_group_name = var.resource_group_name
